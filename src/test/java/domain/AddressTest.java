@@ -116,4 +116,114 @@ public class AddressTest {
         assertFalse(addressString.contains(state));
     }
     
+    @Test (expected = DomainException.class) 
+    public void testStreet_Null() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setStreet(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Street can't be null."));
+        }
+        addressMock.setStreet(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testStreet_Empty() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setStreet("  ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Street can't be empty."));
+        }
+        addressMock.setStreet("");
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testHouseNumber_Negative() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setHouseNumber(-5);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Housenumber has to be positive."));
+        }
+        addressMock.setHouseNumber(-5);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testHouseNumber_Zero() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setHouseNumber(0);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Housenumber has to be positive."));
+        }
+        addressMock.setHouseNumber(0);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testZipCode_Null() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setZipCode(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Zipcode can't be null."));
+        }
+        addressMock.setZipCode(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testZipCode_Empty() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setZipCode("  ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Zipcode can't be empty."));
+        }
+        addressMock.setZipCode("");
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testCity_Null() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setCity(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("City can't be null."));
+        }
+        addressMock.setCity(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testCity_Empty() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setCity("  ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("City can't be empty."));
+        }
+        addressMock.setCity("");
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testCountry_Null() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setCountry(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Country can't be null."));
+        }
+        addressMock.setCountry(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testCountry_Empty() {
+        Address addressMock = Factory.createAddress();
+        try {
+            addressMock.setCountry("  ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Country can't be empty."));
+        }
+        addressMock.setCountry("");
+    }
+    
 }

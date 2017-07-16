@@ -1,5 +1,6 @@
 package domain.model;
 
+import domain.DomainException;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,6 +49,8 @@ public class Address implements Serializable {
         this.setValues(street, houseNumber, addOn, zipCode, city, state, country);
     }
     
+    Address() {}
+    
     private void setValues(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {
         this.street = street;
         this.houseNumber = houseNumber;
@@ -59,6 +62,7 @@ public class Address implements Serializable {
     }
     
     public Long getId() {
+        DomainException.checkNotNull(id, "ID");
         return id;
     }
  
@@ -71,6 +75,8 @@ public class Address implements Serializable {
     }
  
     public void setCity(String city) {
+        DomainException.checkNotNull(city, "City");
+        DomainException.checkStringNotEmpty(city, "City");
         this.city = city;
     }
  
@@ -87,6 +93,8 @@ public class Address implements Serializable {
     }
  
     public void setCountry(String country) {
+        DomainException.checkNotNull(country, "Country");
+        DomainException.checkStringNotEmpty(country, "Country");
         this.country = country;
     }
  
@@ -95,6 +103,8 @@ public class Address implements Serializable {
     }
  
     public void setZipCode(String zipCode) {
+        DomainException.checkNotNull(zipCode, "Zipcode");
+        DomainException.checkStringNotEmpty(zipCode, "Zipcode");
         this.zipCode = zipCode;
     }
 
@@ -111,6 +121,9 @@ public class Address implements Serializable {
     }
          
     public void setHouseNumber(int houseNumber) {
+        DomainException.checkNotNull(houseNumber, "Housenumber");
+        DomainException.checkStringNotEmpty(String.valueOf(houseNumber), "Housenumber");
+        DomainException.checkIfNumberAndPositive(String.valueOf(houseNumber), "Housenumber");
         this.houseNumber = houseNumber;
     }
  
@@ -119,6 +132,8 @@ public class Address implements Serializable {
     }
  
     public void setStreet(String street) {
+        DomainException.checkNotNull(street, "Street");
+        DomainException.checkStringNotEmpty(street, "Street");
         this.street = street;
     }
     

@@ -28,4 +28,8 @@ public class Factory {
         return new Address(street, houseNumber, zipCode, city, country);
     }
     
+    public static Address createAddress() {
+        return new Address();
+    }
+    
 }

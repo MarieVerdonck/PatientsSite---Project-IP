@@ -55,6 +55,7 @@ public class Patient implements Serializable {
     protected Patient() {}
     
     public void setId(Long id) {
+        DomainException.checkNotNull(id, "ID");
         this.id = id;
     }
     
@@ -77,22 +78,26 @@ public class Patient implements Serializable {
     }
     
     public void setLastName(String lastName) {
-        checkStringNotEmptyOrNull(lastName, "Name");
+        DomainException.checkNotNull(lastName, "Name");
+        DomainException.checkStringNotEmpty(lastName, "Name");
         this.lastName = lastName;
     }
     
     public void setFirstName(String firstName) {
-        checkStringNotEmptyOrNull(firstName, "First Name");
+        DomainException.checkNotNull(firstName, "First Name");
+        DomainException.checkStringNotEmpty(firstName, "First Name");
         this.firstName = firstName;
     }
     
     public void setBdate(LocalDate bdate) {
-        checkStringNotEmptyOrNull(bdate.toString(), "Birthdate");
+        DomainException.checkNotNull(bdate, "Birthdate");
+        DomainException.checkStringNotEmpty(bdate.toString(), "Birthdate");
         this.bdate = bdate;
     }
     
     public void setAddress(Address address) {
-        checkStringNotEmptyOrNull(address.toString(), "Address");
+        DomainException.checkNotNull(address, "Address");
+        DomainException.checkStringNotEmpty(address.toString(), "Address");
         this.address = address;
     }
 
@@ -101,8 +106,9 @@ public class Patient implements Serializable {
     }
 
     public void setWeightInKg(int weightInKg) {
-        this.checkStringNotEmptyOrNull(String.valueOf(weightInKg), "Weight");
-        this.checkIfNumberAndPositive(String.valueOf(weightInKg), "Weight");
+        DomainException.checkNotNull(weightInKg, "Weight");
+        DomainException.checkStringNotEmpty(String.valueOf(weightInKg), "Weight");
+        DomainException.checkIfNumberAndPositive(String.valueOf(weightInKg), "Weight");
         this.weightInKg = weightInKg;
     }
 
@@ -111,27 +117,9 @@ public class Patient implements Serializable {
     }
 
     public void setHeightInCm(int heightInCm) {
-        this.checkStringNotEmptyOrNull(String.valueOf(heightInCm), "Height");
-        this.checkIfNumberAndPositive(String.valueOf(heightInCm), "Height");
+        DomainException.checkNotNull(heightInCm, "Height");
+        DomainException.checkStringNotEmpty(String.valueOf(heightInCm), "Height");
+        DomainException.checkIfNumberAndPositive(String.valueOf(heightInCm), "Height");
         this.heightInCm = heightInCm;
     }
-    
-    private void checkIfNumberAndPositive(String value, String key) {
-	if (!(Integer.valueOf(value) instanceof Integer)) {
-            throw new DomainException(key + " should be a number.");
-	} else {
-            if(Integer.valueOf(value) <= 0) {
-		throw new DomainException(key + " has to be positive.");
-            }
-	}
-    }
-    
-    private void checkStringNotEmptyOrNull(String value, String key) {
-	if (value==null) {
-            throw new DomainException(key + " can't be null.");
-	}
-		if (value.trim().isEmpty()) {
-			throw new DomainException(key + " can't be empty.");
-		}
-	}
 }

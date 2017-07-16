@@ -44,7 +44,72 @@ public class PatientTest {
     }
     
     @Test (expected = DomainException.class) 
-    public void testNegativeHeight() {
+    public void testName_Null() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setLastName(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Name can't be null."));
+        }
+        patientMock.setLastName(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testName_Empty() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setLastName("   ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Name can't be empty."));
+        }
+        patientMock.setLastName("");
+    }
+    
+     public void testFirstName_Null() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setFirstName(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("First Name can't be null."));
+        }
+        patientMock.setFirstName(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testFirstName_Empty() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setFirstName("   ");
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("First Name can't be empty."));
+        }
+        patientMock.setFirstName("");
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testBdate_Null() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setBdate(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Birthdate can't be null."));
+        }
+        patientMock.setBdate(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testAddress_Null() {
+        Patient patientMock = Factory.createPatient();
+        try {
+            patientMock.setAddress(null);
+        } catch (DomainException e) {
+            assertTrue(e.getMessage().contains("Address can't be null."));
+        }
+        patientMock.setAddress(null);
+    }
+    
+    @Test (expected = DomainException.class) 
+    public void testHeight_Negative() {
         Patient patientMock = Factory.createPatient();
         try {
             patientMock.setHeightInCm(-120);
@@ -55,7 +120,7 @@ public class PatientTest {
     }
     
     @Test (expected = DomainException.class)
-    public void testZeroHeight() {
+    public void testHeight_Zero() {
         Patient patientMock = Factory.createPatient();
         try {
             patientMock.setHeightInCm(0);
@@ -66,7 +131,7 @@ public class PatientTest {
     }
     
     @Test (expected = DomainException.class) 
-    public void testNegativeWeight() {
+    public void testWeight_Negative() {
         Patient patientMock = Factory.createPatient();
         try {
             patientMock.setWeightInKg(-20);
@@ -77,7 +142,7 @@ public class PatientTest {
     }
     
     @Test (expected = DomainException.class) 
-    public void testZeroWeight() {
+    public void testWeight_Zero() {
         Patient patientMock = Factory.createPatient();
         try {
             patientMock.setWeightInKg(0);
