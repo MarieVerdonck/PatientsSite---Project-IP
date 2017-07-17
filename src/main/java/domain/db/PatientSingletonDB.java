@@ -40,10 +40,24 @@ public class PatientSingletonDB implements PatientService {
     }
 
     @Override
-    public Patient create(String name, String fname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
-        Patient patient = Factory.createPatient(name, fname, bdate, address, weightInKg, heightInCm);
-        patients.add(patient);
+    public Patient create(String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+        Patient patient = Factory.createPatient(fname, lname, bdate, address, weightInKg, heightInCm);
+        this.addPatient(patient);
         return patient;
+    }
+    
+    @Override
+    public Patient create(Patient patient) {
+        this.addPatient(patient);
+        return patient;
+    }
+    
+    private void addPatient(Patient patient) {
+         if (this.find(patient.getId()) == null) {
+            patients.add(patient);
+        } else {
+            throw new DomainException("There is already a patient with id " + patient.getId() + " in DB.");
+        }
     }
 
     @Override
@@ -52,11 +66,11 @@ public class PatientSingletonDB implements PatientService {
     }
 
     @Override
-    public Patient update(long id, String name, String fname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
-        if (this.findPatientWithId(id)!=null && this.findPatientWithId(id) instanceof Patient) {
-            Patient patient = this.findPatientWithId(id);
+    public Patient update(long id, String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+        if (this.find(id)!=null && this.find(id) instanceof Patient) {
+            Patient patient = this.find(id);
             patient.setFirstName(fname);
-            patient.setLastName(name);
+            patient.setLastName(lname);
             patient.setBdate(bdate);
             patient.setAddress(address);
             patient.setWeightInKg(weightInKg);
@@ -69,14 +83,15 @@ public class PatientSingletonDB implements PatientService {
 
     @Override
     public void delete(long id) {
-        if (this.findPatientWithId(id)!=null && this.findPatientWithId(id) instanceof Patient) {
-            this.deletePatient(this.findPatientWithId(id));
+        if (this.find(id)!=null && this.find(id) instanceof Patient) {
+            this.deletePatient(this.find(id));
         } else {
             throw new DomainException("Patient with id " + id + " not found in DB");
         }
     }
     
-    private Patient findPatientWithId(long id) {
+    @Override
+    public Patient find(long id) {
         for (Patient patient: patients) {
             if (patient.getId()==id) {
                 return patient;
@@ -87,7 +102,7 @@ public class PatientSingletonDB implements PatientService {
     
     private void deletePatient(Patient patient) {
         int location = -1;
-        for(int i=0; i<=patients.size(); i++) {
+        for(int i=0; i<patients.size(); i++) {
             if (patients.get(i).equals(patient)) {
                 location = i;
             }
