@@ -12,7 +12,7 @@ import java.util.Collection;
  * Singleton DB
  * @author Marie
  */
-public class PatientSingletonDB implements PatientService {
+public class PatientSingletonDB extends PatientDB {
     
     private static volatile PatientSingletonDB instance = null;
     private static ArrayList<Patient> patients =  new ArrayList<Patient>();
@@ -40,14 +40,14 @@ public class PatientSingletonDB implements PatientService {
     }
 
     @Override
-    public Patient create(String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    public Patient add(String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
         Patient patient = Factory.createPatient(fname, lname, bdate, address, weightInKg, heightInCm);
         this.addPatient(patient);
         return patient;
     }
     
     @Override
-    public Patient create(Patient patient) {
+    public Patient add(Patient patient) {
         this.addPatient(patient);
         return patient;
     }
@@ -61,7 +61,7 @@ public class PatientSingletonDB implements PatientService {
     }
 
     @Override
-    public Collection<Patient> read() {
+    public Collection<Patient> getAll() {
         return patients;
     }
 
@@ -82,7 +82,7 @@ public class PatientSingletonDB implements PatientService {
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         if (this.find(id)!=null && this.find(id) instanceof Patient) {
             this.deletePatient(this.find(id));
         } else {

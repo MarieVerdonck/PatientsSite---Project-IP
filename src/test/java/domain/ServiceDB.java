@@ -5,7 +5,6 @@
  */
 package domain;
 
-import domain.db.PatientService;
 import domain.db.PatientSingletonDB;
 import domain.model.Factory;
 import domain.model.Patient;
@@ -15,17 +14,18 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import domain.db.PatientDB;
 
 /**
  *
  * @author Marie
  */
-public class ServiceTest {
+public class ServiceDB {
     
-    private static PatientService patientService;
+    private static PatientDB patientService;
     private static Patient testPatient;
     
-    public ServiceTest() {
+    public ServiceDB() {
         patientService = PatientSingletonDB.getDB();    
         testPatient = Factory.createPatient("testFname", "testName", LocalDate.parse("2000-01-01"), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
@@ -34,28 +34,28 @@ public class ServiceTest {
     
     @Before
     public void setUp() {
-        patientService.create(testPatient);
+        patientService.add(testPatient);
     }
     
     @After
     public void tearDown() {
-        patientService.delete(testPatient.getId());
+        patientService.remove(testPatient.getId());
     }
     
     @Test 
     public void test_createPatientAndAddToDB() {
-        int nrOfPatients = patientService.read().size();
+        int nrOfPatients = patientService.getAll().size();
         Patient testPatient2 = Factory.createPatient("testFname2", "testName2", LocalDate.parse("2000-01-01"), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
                     60, 160);
-        patientService.create(testPatient2);
+        patientService.add(testPatient2);
         assertTrue(patientService.find(testPatient2.getId()) != null );
-        assertEquals(nrOfPatients+1, patientService.read().size());
+        assertEquals(nrOfPatients+1, patientService.getAll().size());
     }
     
     @Test
     public void test_readContainsTestPatient() {
-        Collection<Patient> patients = patientService.read();
+        Collection<Patient> patients = patientService.getAll();
         Patient foundPatient = null;
         for (Patient patient: patients) {
             if (patient.getId().equals(testPatient.getId())) {
@@ -82,15 +82,15 @@ public class ServiceTest {
         Patient testPatient2 = Factory.createPatient("testFname2", "testName2", LocalDate.parse("2000-01-01"), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
                     60, 160);
-        patientService.create(testPatient2);
+        patientService.add(testPatient2);
         assertTrue(patientService.find(testPatient2.getId()) != null );
-        patientService.delete(testPatient2.getId());
+        patientService.remove(testPatient2.getId());
         assertTrue(patientService.find(testPatient2.getId()) == null );
     }
     
     @Test (expected = DomainException.class)
     public void test_deleteNonExistentPatient() {
-        Collection<Patient> patients = patientService.read();
+        Collection<Patient> patients = patientService.getAll();
         boolean newIdFound = false;
         long i = 0;
         while (!newIdFound) {
@@ -100,10 +100,10 @@ public class ServiceTest {
             i++;
         }
         try {
-            patientService.delete(i);
+            patientService.remove(i);
         } catch (DomainException e) {
             assertTrue(e.getMessage().contains("Patient with id " + i + " not found in DB"));
         } 
-        patientService.delete(i);
+        patientService.remove(i);
     }
 }
