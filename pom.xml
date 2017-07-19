@@ -62,7 +62,7 @@
     </dependencies>
 
     <build>
-        <finalName>myfinalname</finalName>
+        <finalName>IP Project - PatientDB</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

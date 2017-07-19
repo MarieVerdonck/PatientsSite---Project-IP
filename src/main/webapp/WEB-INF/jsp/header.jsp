@@ -17,9 +17,9 @@
           </div>
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-              <li><a href="index.jsp">Index</a></li>
-              <li><a href="patients.jsp">Overview</a></li>
-              <li><a href="form.jsp">Add Patient</a></li>
+              <li><a href="index.htm">Index</a></li>
+              <li><a href="patients.htm">Overview</a></li>
+              <li><a href="form.htm">Add Patient</a></li>
             </ul>
           </div>
         </div>
