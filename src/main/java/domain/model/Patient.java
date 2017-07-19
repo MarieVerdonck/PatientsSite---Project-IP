@@ -4,6 +4,7 @@ import domain.DomainException;
 import java.time.LocalDate;
 
 import java.io.Serializable;
+import java.time.Period;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -71,6 +72,16 @@ public class Patient implements Serializable {
 
     public LocalDate getBdate() {
         return bdate;
+    }
+    
+    public int getAge() {
+        LocalDate birthDate = this.getBdate();
+        LocalDate currentDate = LocalDate.now();
+        if ((birthDate != null) && (currentDate != null)) {
+            return Period.between(birthDate, currentDate).getYears();
+        } else {
+            return 0;
+        }
     }
 
     public Address getAddress() {

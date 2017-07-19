@@ -8,7 +8,7 @@ import java.time.LocalDate;
  */
 public class Factory {
     
-    private static long idCounter = 0;
+    private static long idCounter = 1;
     
     private Factory() {}
     

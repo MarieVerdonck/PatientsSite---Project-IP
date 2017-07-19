@@ -20,12 +20,12 @@ import domain.db.PatientDB;
  *
  * @author Marie
  */
-public class ServiceDB {
+public class PatientDBTest {
     
     private static PatientDB patientService;
     private static Patient testPatient;
     
-    public ServiceDB() {
+    public PatientDBTest() {
         patientService = PatientSingletonDB.getDB();    
         testPatient = Factory.createPatient("testFname", "testName", LocalDate.parse("2000-01-01"), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 

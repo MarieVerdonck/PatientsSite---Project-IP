@@ -1,4 +1,4 @@
-package domain;
+package service;
 
 import domain.db.PatientDB;
 import domain.db.PatientSingletonDB;
@@ -16,8 +16,12 @@ public class PatientService {
     
     PatientDB db;
     
-    public PatientService() {
-        db = PatientSingletonDB.getDB();
+    public PatientService(String typeDB) {
+        if (typeDB.equals("Memory")) {
+            db = PatientSingletonDB.getDB();
+        } else {
+            //TODO: Non-singleton DB
+        }
     }
     
     public void create(String fname, String lname, int byear, int bmonth, int bday, 
