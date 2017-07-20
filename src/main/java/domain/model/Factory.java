@@ -1,6 +1,6 @@
 package domain.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Factory for patients and addresses
@@ -12,12 +12,14 @@ public class Factory {
     
     private Factory() {}
     
-    public static Patient createPatient(String firstName, String lastName, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    public static Patient createPatient(String firstName, String lastName, Date bdate, Address address, int weightInKg, int heightInCm) {
         return new Patient(idCounter++, firstName, lastName, bdate, address, weightInKg, heightInCm);
     }
     
     public static Patient createPatient() {
-        return new Patient();
+        Patient patient = new Patient();
+        patient.setId(idCounter++);
+        return patient;
     }
     
     public static Address createAddress(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {

@@ -4,9 +4,12 @@ import domain.DomainException;
 import domain.model.Address;
 import domain.model.Patient;
 import domain.model.Factory;
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Singleton DB
@@ -16,13 +19,10 @@ public class PatientSingletonDB extends PatientDB {
     
     private static volatile PatientSingletonDB instance = null;
     private static ArrayList<Patient> patients =  new ArrayList<Patient>();
-    //Some starter values 
-    private static Patient patient1 = Factory.createPatient("John", "Lemmings", LocalDate.parse("1956-12-03"), Factory.createAddress("Lemmingway", 2, "3000", "Leuven", "Belgium"), 98, 180);
-    private static Patient patient2 = Factory.createPatient("Alise", "Trenton", LocalDate.parse("1985-12-03"), Factory.createAddress("Treestreet", 65, "3000", "Leuven", "Belgium"), 59, 162);
     
     private PatientSingletonDB() {}
     
-    public static PatientSingletonDB getDB() {
+    public static PatientSingletonDB getDB() throws ParseException {
         if (instance == null) {
 			synchronized(PatientSingletonDB.class) {
 				if (instance == null) {
@@ -34,13 +34,16 @@ public class PatientSingletonDB extends PatientDB {
 		return instance;
     }
     
-    private static void setStarterValues() {
+    private static void setStarterValues() throws ParseException {    
+        //Some starter values 
+        Patient patient1 = Factory.createPatient("John", "Lemmings", new SimpleDateFormat("mm/dd/yyyy").parse("12/03/1965"), Factory.createAddress("Lemmingway", 2, "3000", "Leuven", "Belgium"), 98, 180);
+        Patient patient2 = Factory.createPatient("Alise", "Trenton", new SimpleDateFormat("mm/dd/yyyy").parse("06/21/1987"), Factory.createAddress("Treestreet", 65, "3000", "Leuven", "Belgium"), 59, 162);
         patients.add(patient1);
         patients.add(patient2);
     }
 
     @Override
-    public Patient add(String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    public Patient add(String fname, String lname, Date bdate, Address address, int weightInKg, int heightInCm) {
         Patient patient = Factory.createPatient(fname, lname, bdate, address, weightInKg, heightInCm);
         this.addPatient(patient);
         return patient;
@@ -66,7 +69,7 @@ public class PatientSingletonDB extends PatientDB {
     }
 
     @Override
-    public Patient update(long id, String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    public Patient update(long id, String fname, String lname, Date bdate, Address address, int weightInKg, int heightInCm) {
         if (this.find(id)!=null && this.find(id) instanceof Patient) {
             Patient patient = this.find(id);
             patient.setFirstName(fname);

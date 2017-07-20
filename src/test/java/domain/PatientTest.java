@@ -2,8 +2,11 @@ package domain;
 
 import domain.model.Factory;
 import domain.model.Patient;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import java.time.LocalDate;
+import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,7 +18,7 @@ public class PatientTest {
     
     private final String patient1_Name = "Lemmings";
     private final String patient1_Fname = "John";
-    private final LocalDate patient1_Bdate = LocalDate.parse("1956-12-03");
+    private final Date patient1_Bdate;
     private final String patient1_address_street = "Lemmingway";
     private final int patient1_address_housenumber = 2;
     private final String patient1_address_zipcode = "3000";
@@ -23,6 +26,10 @@ public class PatientTest {
     private final String patient1_address_country = "Belgium";
     private final int patient1_weight = 98;
     private final int patient1_height = 180;
+
+    public PatientTest() throws ParseException {
+        this.patient1_Bdate = new SimpleDateFormat("mm/dd/yyyy").parse("01/06/2002");
+    }
     
 
     @Test

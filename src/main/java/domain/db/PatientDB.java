@@ -2,8 +2,9 @@ package domain.db;
 
 import domain.model.Address;
 import domain.model.Patient;
-import java.time.LocalDate;
+
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *
@@ -11,10 +12,10 @@ import java.util.Collection;
  */
 public abstract class PatientDB {
    
-    abstract public Patient add(String fname, String lname, LocalDate bdate, Address address, int weightInKg, int heightInCm);
+    abstract public Patient add(String fname, String lname, Date bdate, Address address, int weightInKg, int heightInCm);
     abstract public Patient add(Patient patient);
     abstract public Collection<Patient> getAll();
-    abstract public Patient update(long id, String name, String fname, LocalDate bdate, Address address, int weightInKg, int heightInCm);
+    abstract public Patient update(long id, String name, String fname, Date bdate, Address address, int weightInKg, int heightInCm);
     abstract public void remove(long id);
     abstract public Patient find(long id);
 

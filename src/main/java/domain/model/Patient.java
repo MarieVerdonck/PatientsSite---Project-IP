@@ -1,21 +1,25 @@
 package domain.model;
 
 import domain.DomainException;
-import java.time.LocalDate;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.Period;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 /**
  * Entity that represents a person
  * @author Marie
  */
 @Entity
+@Table(name="patient")
 public class Patient implements Serializable {
     
     @Id
@@ -29,12 +33,14 @@ public class Patient implements Serializable {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     
-    private LocalDate bdate;
+    /* handles data-binding (parsing) and display if spring form tld or spring:eval */
+    @DateTimeFormat(pattern = "mm/dd/yyyy")
+    private Date bdate;
     private Address address;
     private int weightInKg;
     private int heightInCm;
 
-    protected Patient(String firstName, String lastName, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    protected Patient(String firstName, String lastName, Date bdate, Address address, int weightInKg, int heightInCm) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.bdate = bdate;
@@ -43,7 +49,7 @@ public class Patient implements Serializable {
         this.heightInCm = heightInCm;
     }
     
-    protected Patient(Long id, String firstName, String lastName, LocalDate bdate, Address address, int weightInKg, int heightInCm) {
+    public Patient(Long id, String firstName, String lastName, Date bdate, Address address, int weightInKg, int heightInCm) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,7 +59,7 @@ public class Patient implements Serializable {
         this.heightInCm = heightInCm;
     }   
     
-    protected Patient() {}
+    public Patient() {}
     
     public void setId(Long id) {
         DomainException.checkNotNull(id, "ID");
@@ -70,12 +76,12 @@ public class Patient implements Serializable {
         return lastName;
     }
 
-    public LocalDate getBdate() {
+    public Date getBdate() {
         return bdate;
     }
     
     public int getAge() {
-        LocalDate birthDate = this.getBdate();
+        LocalDate birthDate = new java.sql.Date(bdate.getTime()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
         if ((birthDate != null) && (currentDate != null)) {
             return Period.between(birthDate, currentDate).getYears();
@@ -85,7 +91,10 @@ public class Patient implements Serializable {
     }
 
     public Address getAddress() {
-        return address;
+        if (this.address != null && this.address instanceof Address) {
+            return this.address;
+        }
+        return null;
     }
     
     public void setLastName(String lastName) {
@@ -100,7 +109,7 @@ public class Patient implements Serializable {
         this.firstName = firstName;
     }
     
-    public void setBdate(LocalDate bdate) {
+    public void setBdate(Date bdate) {
         DomainException.checkNotNull(bdate, "Birthdate");
         DomainException.checkStringNotEmpty(bdate.toString(), "Birthdate");
         this.bdate = bdate;
@@ -132,5 +141,10 @@ public class Patient implements Serializable {
         DomainException.checkStringNotEmpty(String.valueOf(heightInCm), "Height");
         DomainException.checkIfNumberAndPositive(String.valueOf(heightInCm), "Height");
         this.heightInCm = heightInCm;
+    }
+    
+    @Override
+    public String toString() {
+        return "Name: " + firstName + " " + lastName + "\nAge: " + this.getAge() + "\nAddress: " + address + "\nWeight: " + weightInKg + "\nHeight: " + heightInCm;
     }
 }

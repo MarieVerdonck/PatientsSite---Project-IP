@@ -37,14 +37,15 @@
                                     <td><%= patient.getId() %></td>
                                     <td><%= patient.getFirstName() %> <%= patient.getLastName() %></td>
                                     <td><%= patient.getAge() %></td>
-                                    <td><%= patient.getAddress().toString() %></td>
+                                    <td><%= patient.getAddress() %></td>
                                     <td><%= patient.getWeightInKg() %></td>
                                     <td><%= patient.getHeightInCm() %></td>
                                 </tr>
                                 <% } %>
                             </tbody>
                         </table>
-                    </div>
+                    </div>  
+                    <a href="form.htm" class="btn btn-primary">Add Patient</a> 
                 </div>
             </div>
         </div>

@@ -15,6 +15,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import domain.db.PatientDB;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -25,9 +28,9 @@ public class PatientDBTest {
     private static PatientDB patientService;
     private static Patient testPatient;
     
-    public PatientDBTest() {
+    public PatientDBTest() throws ParseException {
         patientService = PatientSingletonDB.getDB();    
-        testPatient = Factory.createPatient("testFname", "testName", LocalDate.parse("2000-01-01"), 
+        testPatient = Factory.createPatient("testFname", "testName", new Date(2000,01,01), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
                     100, 200);
     }
@@ -45,7 +48,7 @@ public class PatientDBTest {
     @Test 
     public void test_createPatientAndAddToDB() {
         int nrOfPatients = patientService.getAll().size();
-        Patient testPatient2 = Factory.createPatient("testFname2", "testName2", LocalDate.parse("2000-01-01"), 
+        Patient testPatient2 = Factory.createPatient("testFname2", "testName2", new Date(2000,01,01), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
                     60, 160);
         patientService.add(testPatient2);
@@ -78,8 +81,8 @@ public class PatientDBTest {
     }
     
     @Test
-    public void test_deletePatient() {
-        Patient testPatient2 = Factory.createPatient("testFname2", "testName2", LocalDate.parse("2000-01-01"), 
+    public void test_deletePatient() throws ParseException {
+        Patient testPatient2 = Factory.createPatient("testFname2", "testName2", new SimpleDateFormat("mm/dd/yyyy").parse("01/01/2000"), 
                     Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"), 
                     60, 160);
         patientService.add(testPatient2);
