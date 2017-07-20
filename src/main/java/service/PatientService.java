@@ -7,6 +7,7 @@ import domain.model.Factory;
 import domain.model.Patient;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Facade class to access all functionalities of the Patient logic
@@ -28,8 +29,12 @@ public class PatientService {
                         String street, int nr, String addOn, String zipcode, String city, String state, String country,
                         int weight, int height) {
         Address address = Factory.createAddress(street, nr, addOn, zipcode, city, state, country);
-        LocalDate bdate = LocalDate.parse(byear + "-" + bmonth + "-" + bday);
+        Date bdate = new Date(byear,bmonth,bday);
         db.add(fname, lname, bdate, address, weight, height);
+    }
+    
+    public void create(Patient patient) {
+        db.add(patient);
     }
     
     public Collection<Patient> read() {
@@ -40,7 +45,7 @@ public class PatientService {
                         String street, int nr, String addOn, String zipcode, String city, String state, String country,
                         int weight, int height) {
         Address address = Factory.createAddress(street, nr, addOn, zipcode, city, state, country);
-        LocalDate bdate = LocalDate.parse(byear + "-" + bmonth + "-" + bday);
+        Date bdate = new Date(byear,bmonth,bday);
         db.update(id, fname, lname, bdate, address, weight, height);
     }
     

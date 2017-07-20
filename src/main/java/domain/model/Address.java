@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 /**
  *
  * @author Marie
  */
 @Entity
+@Table(name="address")
 public class Address implements Serializable {
     
     @Id
@@ -41,15 +43,15 @@ public class Address implements Serializable {
     @Column(name = "country", nullable = false)
     private String country;
 
-    Address(String street, int houseNumber, String zipCode, String city, String country) {
+    public Address(String street, int houseNumber, String zipCode, String city, String country) {
         this.setValues(street, houseNumber, null, zipCode, city, null, country);
     }
 
-    Address(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {
+    public Address(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {
         this.setValues(street, houseNumber, addOn, zipCode, city, state, country);
     }
     
-    Address() {}
+    public Address() {}
     
     private void setValues(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {
         this.street = street;
