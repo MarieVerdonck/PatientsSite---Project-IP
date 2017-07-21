@@ -40,6 +40,8 @@
                                     <td><%= patient.getAddress() %></td>
                                     <td><%= patient.getWeightInKg() %></td>
                                     <td><%= patient.getHeightInCm() %></td>
+                                    <td><a href="editPatient/<%=patient.getId()%>.htm">edit</a></td>
+                                    <td><a href="requestDeletePatient/<%=patient.getId()%>.htm">delete</a></td>
                                 </tr>
                                 <% } %>
                             </tbody>

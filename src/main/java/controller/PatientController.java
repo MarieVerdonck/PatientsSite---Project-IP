@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,14 +50,33 @@ public class PatientController {
     }
     
     @RequestMapping(value = "/createPatient", method = RequestMethod.POST)
-    public String createPatient(@Valid @ModelAttribute("patient") Patient patient, 
+    public ModelAndView createPatient(@Valid @ModelAttribute("patient") Patient patient, 
                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Nr of errors: " + bindingResult.getAllErrors().size());
-            return "form";
+            return new ModelAndView("form");
         }
         service.create(patient);
-        return "patients";
+        return getPatientsOverview();
+    }
+    
+    @RequestMapping(value = "editPatient/{id}", method = RequestMethod.GET)
+    public ModelAndView getEditForm(@PathVariable long id) {
+        System.out.println(service.find(id));
+        return new ModelAndView("form", "patient", service.find(id));
+    }
+    
+    @RequestMapping(value = "requestDeletePatient/{id}", method = RequestMethod.GET)
+    public ModelAndView requestDeletePatient(@PathVariable long id) {
+        System.out.println(service.find(id));
+        return new ModelAndView("deletePatientConfirmation", "patient", service.find(id));
+    }
+    
+    @RequestMapping(value = "deletePatient/{id}", method = RequestMethod.GET)
+    public ModelAndView deletePatient(@PathVariable long id) {
+        System.out.println(service.find(id));
+        service.delete(id);
+        return new ModelAndView("patients", "patients", service.read());
     }
     
     @InitBinder

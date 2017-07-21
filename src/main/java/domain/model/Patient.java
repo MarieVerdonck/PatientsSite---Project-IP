@@ -49,11 +49,11 @@ public class Patient implements Serializable {
     private Date bdate;
     
     @Column(name = "address", nullable = false)
-    @NotNull
+    @NotNull(message = "Please enter address.")
     private Address address;
     
     @Column(name = "weightInKg", nullable = false)
-    @NotNull
+    @NotNull(message = "Please enter weight.")
     @Min(1)
     private int weightInKg;
     
