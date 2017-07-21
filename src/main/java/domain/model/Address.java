@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 /**
  *
  * @author Marie
@@ -23,24 +26,38 @@ public class Address implements Serializable {
     private Long id; 
      
     @Column(name = "street", nullable = false)
+    @NotNull
+    @Size(min=1, max=50)
     private String street;
      
     @Column(name = "houseNumber", nullable = false)
+    @NotNull
+    @Min(1)
     private int houseNumber;
     
     @Column(name = "addOn", nullable = true)
+    @NotNull
+    @Size(min=1, max=30)
     private String addOn;
      
     @Column(name = "zipCode", nullable = false)
+    @NotNull
+    @Size(min=1, max=10)
     private String zipCode;
      
     @Column(name = "city", nullable = false)
+    @NotNull
+    @Size(min=1, max=20)
     private String city;
      
     @Column(name = "state", nullable = true)
+    @NotNull
+    @Size(min=1, max=20)
     private String state;
     
     @Column(name = "country", nullable = false)
+    @NotNull
+    @Size(min=1, max=20)
     private String country;
 
     public Address(String street, int houseNumber, String zipCode, String city, String country) {

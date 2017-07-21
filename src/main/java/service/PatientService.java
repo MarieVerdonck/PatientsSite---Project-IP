@@ -5,6 +5,7 @@ import domain.db.PatientSingletonDB;
 import domain.model.Address;
 import domain.model.Factory;
 import domain.model.Patient;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class PatientService {
     
     PatientDB db;
     
-    public PatientService(String typeDB) {
+    public PatientService(String typeDB) throws ParseException {
         if (typeDB.equals("Memory")) {
             db = PatientSingletonDB.getDB();
         } else {

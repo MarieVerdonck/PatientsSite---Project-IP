@@ -13,6 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 /**
  * Entity that represents a person
@@ -28,16 +32,34 @@ public class Patient implements Serializable {
     private Long id;
      
     @Column(name = "first_name", nullable = false)
+    @NotNull(message = "Please enter your first name.")
+    @Size(min=1, max=15, message = "Your first name must be between 1 and 15 characters.")
     private String firstName;
      
     @Column(name = "last_name", nullable = false)
+    @NotNull(message = "Please enter your last name.")
+    @Size(min=1, max=30, message = "Your last name must be between 1 and 30 characters.")
     private String lastName;
     
     /* handles data-binding (parsing) and display if spring form tld or spring:eval */
+    @Column(name = "birth_date", nullable = false)
+    @NotNull(message = "Please enter birthdate.")
+    @Past(message = "Birthdate must be in the past.")
     @DateTimeFormat(pattern = "mm/dd/yyyy")
     private Date bdate;
+    
+    @Column(name = "address", nullable = false)
+    @NotNull
     private Address address;
+    
+    @Column(name = "weightInKg", nullable = false)
+    @NotNull
+    @Min(1)
     private int weightInKg;
+    
+    @Column(name = "heightInCm", nullable = false)
+    @NotNull
+    @Min(1)
     private int heightInCm;
 
     protected Patient(String firstName, String lastName, Date bdate, Address address, int weightInKg, int heightInCm) {
