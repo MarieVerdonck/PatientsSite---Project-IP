@@ -10,6 +10,7 @@ import service.PatientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -53,30 +57,41 @@ public class PatientController {
     public ModelAndView createPatient(@Valid @ModelAttribute("patient") Patient patient, 
                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println("Nr of errors: " + bindingResult.getAllErrors().size());
-            return new ModelAndView("form");
+            return new ModelAndView("form", "patient", patient);
         }
         service.create(patient);
-        return getPatientsOverview();
+        return new ModelAndView("patients", "patients", service.read());
+    }
+    
+    @RequestMapping(value = "updatePatient", method = RequestMethod.POST)
+    @ResponseStatus(value=HttpStatus.OK)
+    public @ResponseBody ModelAndView updatePatient(@Valid @ModelAttribute("patient") Patient patient, 
+                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("updatePatientForm", "patient", patient);
+        }
+        service.update(patient);
+        return new ModelAndView("patients", "patients", service.read());
     }
     
     @RequestMapping(value = "editPatient/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
         System.out.println(service.find(id));
-        return new ModelAndView("form", "patient", service.find(id));
+        return new ModelAndView("updatePatientForm", "patient", service.find(id));
     }
     
     @RequestMapping(value = "requestDeletePatient/{id}", method = RequestMethod.GET)
     public ModelAndView requestDeletePatient(@PathVariable long id) {
-        System.out.println(service.find(id));
         return new ModelAndView("deletePatientConfirmation", "patient", service.find(id));
     }
     
-    @RequestMapping(value = "deletePatient/{id}", method = RequestMethod.GET)
-    public ModelAndView deletePatient(@PathVariable long id) {
-        System.out.println(service.find(id));
-        service.delete(id);
-        return new ModelAndView("patients", "patients", service.read());
+    @RequestMapping(value = "deletePatient/{id}", method = RequestMethod.POST)
+    public ModelAndView deletePatient(@PathVariable int id, @RequestParam String submit) {
+        System.out.println("ID " + id);
+        if (submit.equals("Delete")) {
+            service.delete(id);
+        }
+        return new ModelAndView("/patients", "patients", service.read());
     }
     
     @InitBinder

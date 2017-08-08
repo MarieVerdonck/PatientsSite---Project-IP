@@ -50,6 +50,11 @@ public class PatientService {
         db.update(id, fname, lname, bdate, address, weight, height);
     }
     
+    public void update(Patient patient) {
+        db.update(patient.getId(), patient.getFirstName(), patient.getLastName(), 
+                patient.getBdate(), patient.getAddress(), patient.getWeightInKg(), patient.getHeightInCm());
+    }
+    
     public void delete(long id) {
         db.remove(id);
     }

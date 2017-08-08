@@ -13,6 +13,9 @@ xsi:schemaLocation="
     <context:component-scan base-package="controller" />
     <mvc:annotation-driven />
     
+    <mvc:resources mapping="/resources/**" location="/resources"
+	cache-period="31556926"/>
+    
     <bean id="service" class="service.PatientService" >
     <constructor-arg type="java.lang.String" value="Memory"/>
 </bean>

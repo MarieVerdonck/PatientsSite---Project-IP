@@ -17,18 +17,17 @@
 
     <body>
         <div id="container">
-            <%@include file="header.jsp" %>
+            <jsp:include page="header.jsp">
+                <jsp:param name="path" value="../" />
+            </jsp:include>
             <div id="screen">
                 <div id="content">
                     <% Patient patient = (Patient) request.getAttribute("patient");%>
                     <h1>Delete patient</h1>
                     <p><%= patient %></p>
                     <p>Are you certain you wish to delete this patient?</p>
-                    <form method="POST" action="deletePatient/<%=patient.getId()%>.htm">
-                            <input id="confirmDelete" type="submit" value="Yes" />
-                    </form>
-                    <form method="GET" action="patients.htm">
-                            <input id="noDelete" type="submit" value="No" />
+                    <form action="/ip-project/deletePatient/<%= patient.getId() %>.htm" method="POST">
+                        <input type="submit" name="submit" value="Delete" />
                     </form>
                 </div>
             </div>

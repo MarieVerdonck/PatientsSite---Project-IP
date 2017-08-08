@@ -37,11 +37,11 @@
                                     <td><%= patient.getId() %></td>
                                     <td><%= patient.getFirstName() %> <%= patient.getLastName() %></td>
                                     <td><%= patient.getAge() %></td>
-                                    <td><%= patient.getAddress() %></td>
+                                    <td><%= patient.getAddress().getStreet()!=null ? patient.getAddress() : "none" %></td>
                                     <td><%= patient.getWeightInKg() %></td>
                                     <td><%= patient.getHeightInCm() %></td>
-                                    <td><a href="editPatient/<%=patient.getId()%>.htm">edit</a></td>
-                                    <td><a href="requestDeletePatient/<%=patient.getId()%>.htm">delete</a></td>
+                                    <td><a href="/ip-project/editPatient/<%=patient.getId()%>.htm">edit</a></td>
+                                    <td><a href="/ip-project/requestDeletePatient/<%=patient.getId()%>.htm">delete</a></td>
                                 </tr>
                                 <% } %>
                             </tbody>

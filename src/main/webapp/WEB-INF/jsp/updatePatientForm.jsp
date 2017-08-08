@@ -1,6 +1,6 @@
 <%-- 
-    Document   : form
-    Created on : Jul 19, 2017, 2:04:29 AM
+    Document   : updatePatientForm
+    Created on : Aug 8, 2017, 10:50:27 AM
     Author     : Marie
 --%>
 
@@ -10,16 +10,18 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="head.jsp">
-        <jsp:param name="title" value="Add Patient - Patient DB" />
+        <jsp:param name="title" value="Update Patient - Patient DB" />
     </jsp:include>
     <body>
         <div id="container">
-            <%@include file="header.jsp" %>
+            <jsp:include page="header.jsp">
+                <jsp:param name="path" value="../" />
+            </jsp:include> 
             <div id="screen">
                 <div id="content">
                     <h1>Add Patient</h1>
                     <jsp:include page="patientForm.jsp">
-                        <jsp:param name="action" value="createPatient.htm" />
+                        <jsp:param name="action" value="/ip-project/updatePatient.htm" />
                     </jsp:include> 
                 </div>
             </div>
