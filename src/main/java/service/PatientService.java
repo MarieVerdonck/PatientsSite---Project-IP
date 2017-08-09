@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Facade class to access all functionalities of the Patient logic
@@ -65,12 +66,12 @@ public class PatientService {
         return db.find(id);
     }
     
-    public double averageWeight() {
-        return db.getAverageWeight();
-    }
-    
-    public double averageHeight() {
-        return db.getAverageHeight();
+    public HashMap<String, Double> getPatientStatistics() {
+        HashMap<String, Double> stats = new HashMap<String, Double>();
+        stats.put("Average height (in cm)", db.getAverageHeight());
+        stats.put("Average weight (in kg)", db.getAverageWeight());
+        stats.put("Average age", db.getAverageAge());
+        return stats;
     }
     
 }

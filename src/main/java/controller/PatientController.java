@@ -39,8 +39,8 @@ public class PatientController {
     }
     
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String getIndex() {
-        return "index";
+    public ModelAndView getIndex() {
+        return new ModelAndView("index", "stats", service.getPatientStatistics());
     }
     
     @RequestMapping(value = "/patients", method = RequestMethod.GET)

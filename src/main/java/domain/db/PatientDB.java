@@ -36,4 +36,12 @@ public abstract class PatientDB {
         }
         return totalHeight/getAll().size();
     }
+    
+    public double getAverageAge() {
+        int totalAge = 0;
+        for (Patient patient: getAll()) {
+            totalAge += patient.getAge();
+        }
+        return totalAge/getAll().size();
+    }
 }
