@@ -3,6 +3,7 @@ package domain.model;
 import domain.DomainException;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,15 +17,9 @@ import javax.validation.constraints.Size;
  *
  * @author Marie
  */
-@Entity
-@Table(name="address")
+@Embeddable
 public class Address implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO, generator = "address_seq_gen")
-    @SequenceGenerator(name="address_seq_gen", sequenceName="ADDRESS_SEQ")
-    private Long id; 
-     
     @Column(name = "street", nullable = false)
     private String street;
      
@@ -64,15 +59,6 @@ public class Address implements Serializable {
         this.city = city;
         this.state = state;
         this.country = country;
-    }
-    
-    public Long getId() {
-        DomainException.checkNotNull(id, "ID");
-        return id;
-    }
- 
-    public void setId(Long id) {
-        this.id = id;
     }
  
     public String getCity() {

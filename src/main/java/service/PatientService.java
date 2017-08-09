@@ -31,7 +31,8 @@ public class PatientService {
                         int weight, int height) {
         Address address = Factory.createAddress(street, nr, addOn, zipcode, city, state, country);
         Date bdate = new Date(byear,bmonth,bday);
-        db.add(fname, lname, bdate, address, weight, height);
+        Patient patient = Factory.createPatient(fname, lname, bdate, address, weight, height);
+        db.add(patient);
     }
     
     public void create(Patient patient) {
@@ -47,12 +48,13 @@ public class PatientService {
                         int weight, int height) {
         Address address = Factory.createAddress(street, nr, addOn, zipcode, city, state, country);
         Date bdate = new Date(byear,bmonth,bday);
-        db.update(id, fname, lname, bdate, address, weight, height);
+        Patient patient = new Patient(id, fname, lname, bdate, address, weight, height);
+        db.update(patient);
     }
     
     public void update(Patient patient) {
-        db.update(patient.getId(), patient.getFirstName(), patient.getLastName(), 
-                patient.getBdate(), patient.getAddress(), patient.getWeightInKg(), patient.getHeightInCm());
+        db.update(patient);
+                
     }
     
     public void delete(long id) {

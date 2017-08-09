@@ -22,12 +22,12 @@ import org.springframework.format.annotation.DateTimeFormat;
  * Entity that represents a person
  * @author Marie
  */
-@Entity
+@Entity(name="patient")
 @Table(name="patient")
 public class Patient implements Serializable {
     
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO, generator = "patient_seq_gen")
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "patient_seq_gen")
     @SequenceGenerator(name="patient_seq_gen", sequenceName="PATIENT_SEQ")
     private Long id;
      

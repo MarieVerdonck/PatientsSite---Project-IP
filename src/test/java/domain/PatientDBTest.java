@@ -72,7 +72,8 @@ public class PatientDBTest {
     
     @Test
     public void test_updateTestPatient_changeNameAndWeight() {
-        patientService.update(testPatient.getId(), "newTestFirstName", "newTestLastName", testPatient.getBdate(), testPatient.getAddress(), 70, testPatient.getHeightInCm());
+        Patient patient = new Patient(testPatient.getId(), "newTestFirstName", "newTestLastName", testPatient.getBdate(), testPatient.getAddress(), 70, testPatient.getHeightInCm());
+        patientService.update(patient);
         Patient updatedPatient = patientService.find(testPatient.getId());
         
         assertEquals(updatedPatient.getFirstName(), "newTestFirstName");

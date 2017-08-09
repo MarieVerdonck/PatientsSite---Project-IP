@@ -76,7 +76,6 @@ public class PatientController {
     
     @RequestMapping(value = "editPatient/{id}", method = RequestMethod.GET)
     public ModelAndView getEditForm(@PathVariable long id) {
-        System.out.println(service.find(id));
         return new ModelAndView("updatePatientForm", "patient", service.find(id));
     }
     
@@ -87,7 +86,6 @@ public class PatientController {
     
     @RequestMapping(value = "deletePatient/{id}", method = RequestMethod.POST)
     public ModelAndView deletePatient(@PathVariable int id, @RequestParam String submit) {
-        System.out.println("ID " + id);
         if (submit.equals("Delete")) {
             service.delete(id);
         }
