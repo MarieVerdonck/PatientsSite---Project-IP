@@ -25,13 +25,13 @@ public class PatientJpaDB extends PatientDB {
     protected static EntityManagerFactory entityManagerFactory;
     protected static EntityManager entityManager;
 
-    public static void init() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("IP-patients");
+    public static void openConnection(String name) {
+        entityManagerFactory = Persistence.createEntityManagerFactory(name);
         entityManager = entityManagerFactory.createEntityManager();
     }
     
     public PatientJpaDB() {
-        init();
+       this.openConnection("IP-patients");
     }
 
     @Override
@@ -94,7 +94,13 @@ public class PatientJpaDB extends PatientDB {
 
     @Override
     public void close() {
-        entityManager.close();
+        try {            
+            entityManager.close();            
+            entityManagerFactory.close();        
+        } 
+        catch (Exception e) {            
+            throw new DBException(e.getMessage());       
+        }
     }
 
 }

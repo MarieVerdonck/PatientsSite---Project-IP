@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -46,6 +48,7 @@ public class Patient implements Serializable {
     @NotNull(message = "Please enter birthdate.")
     @Past(message = "Birthdate must be in the past.")
     @DateTimeFormat(pattern = "mm/dd/yyyy")
+    @Temporal(DATE)
     private Date bdate;
     
     @Column(name = "address", nullable = false)
