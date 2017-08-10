@@ -94,7 +94,7 @@ public class PatientController {
     
     @InitBinder
     public void initBinder (WebDataBinder binder) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("mm/DD/yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         dateFormatter.setLenient(false);
         binder.registerCustomEditor(Date.class,
                                     new CustomDateEditor(dateFormatter, true));

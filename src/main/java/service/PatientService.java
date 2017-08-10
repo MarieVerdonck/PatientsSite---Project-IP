@@ -1,5 +1,6 @@
 package service;
 
+import domain.db.DBException;
 import domain.db.PatientDB;
 import domain.db.PatientSingletonDB;
 import domain.model.Address;
@@ -23,7 +24,11 @@ public class PatientService {
         if (typeDB.equals("Memory")) {
             db = PatientSingletonDB.getDB();
         } else {
-            //TODO: Non-singleton DB
+            if (typeDB.equals("JPA-DB")) {
+                //TODO
+            } else {
+                throw new DBException("This DB type (" + typeDB +") is not supported.");
+            }
         }
     }
     

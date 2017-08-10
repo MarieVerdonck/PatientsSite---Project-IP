@@ -17,6 +17,7 @@
                 <div id="content">
                     <h1>Patient Database</h1>
                     <p>Welcome to the patient database. Feel free to add, delete, update or look up patients.</p>
+                    <p>Login: User - admin, PW - admin</p>
                     <h2>Statistic</h2>
                     <% HashMap<String, Double> stats = (HashMap<String, Double>) request.getAttribute("stats");%>
                     <div class="table-responsive">

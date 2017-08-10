@@ -42,7 +42,7 @@ public class Address implements Serializable {
     private String country;
 
     public Address(String street, int houseNumber, String zipCode, String city, String country) {
-        this.setValues(street, houseNumber, null, zipCode, city, null, country);
+        this.setValues(street, houseNumber, "", zipCode, city, "", country);
     }
 
     public Address(String street, int houseNumber, String addOn, String zipCode, String city, String state, String country) {

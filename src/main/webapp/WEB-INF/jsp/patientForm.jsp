@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2" for="bdate">Birth Date*:</label>
+        <label class="control-label col-sm-2" for="bdate">Birth Date*(MM/dd/yyyy):</label>
         <div class="col-sm-10">
             <form:input  path="bdate" cssClass="form-control"/>
             <font color="red"> <form:errors path="bdate"></form:errors></font><br/>

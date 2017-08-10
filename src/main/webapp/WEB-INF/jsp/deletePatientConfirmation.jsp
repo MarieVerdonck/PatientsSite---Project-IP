@@ -10,7 +10,7 @@
 <%@ page import="domain.model.Patient"%>
 
 <html>
-    
+
     <jsp:include page="head.jsp">
         <jsp:param name="title" value="Delete Patient - Patient DB" />
     </jsp:include>
@@ -24,10 +24,11 @@
                 <div id="content">
                     <% Patient patient = (Patient) request.getAttribute("patient");%>
                     <h1>Delete patient</h1>
-                    <p><%= patient %></p>
+                    <p><%= patient%></p>
                     <p>Are you certain you wish to delete this patient?</p>
-                    <form action="/ip-project/deletePatient/<%= patient.getId() %>.htm" method="POST">
-                        <input type="submit" name="submit" value="Delete" />
+                    <form action="/ip-project/deletePatient/<%= patient.getId()%>.htm" method="POST">
+                        <input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+                        <input type="submit" id="submitButton" name="submit" value="Delete" />
                     </form>
                 </div>
             </div>

@@ -10,8 +10,7 @@
 	<intercept-url pattern="/" access="permitAll" />
 	<intercept-url pattern="/index.htm" access="permitAll" />
 	<intercept-url pattern="/form**" access="hasRole('USER')" />
-        <intercept-url pattern="/editPatient/**" access="hasRole('USER')" />
-        <intercept-url pattern="/requestDeletePatient/**" access="hasRole('USER')" />
+        <intercept-url pattern="/patients**" access="hasRole('USER')" />
     </http>
 
     <authentication-manager>

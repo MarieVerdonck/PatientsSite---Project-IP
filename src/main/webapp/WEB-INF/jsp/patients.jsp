@@ -34,12 +34,12 @@
                             <tbody>
                                 <% for (Patient patient: patients) { %>
                                 <tr>
-                                    <td><%= patient.getId() %></td>
-                                    <td><%= patient.getFirstName() %> <%= patient.getLastName() %></td>
-                                    <td><%= patient.getAge() %></td>
-                                    <td><%= patient.getAddress().getStreet()!=null ? patient.getAddress() : "none" %></td>
-                                    <td><%= patient.getWeightInKg() %></td>
-                                    <td><%= patient.getHeightInCm() %></td>
+                                    <td class="patientID"><%= patient.getId() %></td>
+                                    <td class="patientName"><%= patient.getFirstName() %> <%= patient.getLastName() %></td>
+                                    <td class="patientAge"><%= patient.getAge() %></td>
+                                    <td class="patientAddress"><%= patient.getAddress().getStreet()!=null ? patient.getAddress() : "none" %></td>
+                                    <td class="patientWeight"><%= patient.getWeightInKg() %></td>
+                                    <td class="patientHeight"><%= patient.getHeightInCm() %></td>
                                     <td><a href="/ip-project/editPatient/<%=patient.getId()%>.htm">edit</a></td>
                                     <td><a href="/ip-project/requestDeletePatient/<%=patient.getId()%>.htm">delete</a></td>
                                 </tr>
