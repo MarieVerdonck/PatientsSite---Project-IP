@@ -44,23 +44,23 @@ public class SeleniumTest {
     private String login_pw;
 
     public SeleniumTest() {
-        testPatient = Factory.createPatient("testFname", "testName", new Date(50, 01, 01),
+        testPatient = Factory.createPatient("SeleniumFname", "testName", new Date(50, 01, 01),
                 Factory.createAddress("testStreet", 1, "testZip", "testCity", "testCountry"),
                 100, 200);
-        testPatient2 = Factory.createPatient("testFname2", "testName2", new Date(55, 03, 05),
+        testPatient2 = Factory.createPatient("SeleniumFname2", "testName2", new Date(55, 03, 05),
                 Factory.createAddress("testStreet2", 1, "3B", "testZip", "testCity", "testState", "testCountry"),
                 80, 170);
         login_user = "admin";
         login_pw = "admin";
         bdate_formatter = new SimpleDateFormat("MM/dd/yyyy");
     }
-    
-    @BeforeClass() 
+
+    @BeforeClass()
     public static void beforeClass() throws ParseException {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
         service = new PatientService("Memory");
-        
+
     }
 
     @Before
@@ -72,7 +72,7 @@ public class SeleniumTest {
     public void tearDown() {
         //TODO
     }
-    
+
     @AfterClass
     public static void shutDown() {
         driver.quit();
@@ -82,10 +82,10 @@ public class SeleniumTest {
     public void testAddPatientFormSucces() {
         driver.get(url + "/form.htm");
         this.login();
-        
+
         String id = driver.findElement(By.id("id")).getAttribute("value");
         this.fillInAndSubmitPatientForm(testPatient);
-        
+
         List<WebElement> tds = driver.findElements(By.tagName("td"));
         assertTrue(this.foundWebElementInCollection(tds, testPatient.getFirstName() + " " + testPatient.getLastName()));
         assertTrue(this.foundWebElementInCollection(tds, Integer.toString(testPatient.getAge())));
@@ -107,7 +107,7 @@ public class SeleniumTest {
             assertTrue(tdStatValue.get(0).getText().equals(service.getPatientStatistics().get(stat).toString()));
         }
     }
-    
+
     @Test
     public void testStatisticsAfterPatientAdded() {
         driver.get(url + "/form.htm");
@@ -115,53 +115,37 @@ public class SeleniumTest {
         String id = driver.findElement(By.id("id")).getAttribute("value");
         this.fillInAndSubmitPatientForm(testPatient);
         service.create(testPatient);
-        
+
         driver.get(url + "/index.htm");
         this.testStatisticsOnIndexPage();
-        
+
         service.delete(testPatient.getId());
         this.deletePatient(Long.parseLong(id));
     }
 
-    private void fillInAndSubmitPatientForm(Patient testPatient) {
-        this.fillInField(driver.findElement(By.id("firstName")), testPatient.getFirstName());
-        this.fillInField(driver.findElement(By.id("lastName")), testPatient.getLastName());
-        this.fillInField(driver.findElement(By.id("bdate")), bdate_formatter.format(testPatient.getBdate()));
-        this.fillInField(driver.findElement(By.id("address.street")), testPatient.getAddress().getStreet());
-        this.fillInField(driver.findElement(By.id("address.houseNumber")), Integer.toString(testPatient.getAddress().getHouseNumber()));
-        this.fillInField(driver.findElement(By.id("address.addOn")), testPatient.getAddress().getAddOn());
-        this.fillInField(driver.findElement(By.id("address.zipCode")), testPatient.getAddress().getZipCode());
-        this.fillInField(driver.findElement(By.id("address.city")), testPatient.getAddress().getCity());
-        this.fillInField(driver.findElement(By.id("address.state")), testPatient.getAddress().getState());
-        this.fillInField(driver.findElement(By.id("address.country")), testPatient.getAddress().getCountry());
-        this.fillInField(driver.findElement(By.id("weightInKg")), Integer.toString(testPatient.getWeightInKg()));
-        this.fillInField(driver.findElement(By.id("heightInCm")), Integer.toString(testPatient.getHeightInCm()));
-        driver.findElement(By.className("btn")).click();
-    }
-    
     @Test
     public void testEditPatient_ChangeDataTestPatientInTestPatient2() {
         driver.get(url + "/form.htm");
         this.login();
         String id = driver.findElement(By.id("id")).getAttribute("value");
         this.fillInAndSubmitPatientForm(testPatient);
-        
+
         driver.get(url + "/patients.htm");
         this.login();
         try {
             driver.findElement(By.cssSelector("a[href*='editPatient/" + id + "']")).click();
             this.fillInAndSubmitPatientForm(testPatient2);
-        } catch (Exception e) {}
-        
+        } catch (Exception e) {
+        }
+
         List<WebElement> names = driver.findElements(By.className("patientName"));
         assertFalse(this.foundWebElementInCollection(names, testPatient.getFirstName() + " " + testPatient.getLastName()));
-        String lastPatientName = names.get(names.size()-1).getText();
-        System.out.println(lastPatientName);
+        String lastPatientName = names.get(names.size() - 1).getText();
         assertEquals(lastPatientName, testPatient2.getFirstName() + " " + testPatient2.getLastName());
-        
+
         this.deletePatient(Long.parseLong(id));
     }
-    
+
     @Test
     public void testDeleteAddedPatient() {
         driver.get(url + "/form.htm");
@@ -169,9 +153,61 @@ public class SeleniumTest {
         String id = driver.findElement(By.id("id")).getAttribute("value");
         this.fillInAndSubmitPatientForm(testPatient);
         this.deletePatient(Long.parseLong(id));
-        
+
         List<WebElement> IDtds = driver.findElements(By.className("patientID"));
         assertFalse(this.foundWebElementInCollection(IDtds, id));
+    }
+    
+    @Test
+    public void test_AddPatientForm_Fail_AllFailCases() {
+        //TODO Test More fail cases
+        //Empty first name
+        this.test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage("", testPatient.getLastName(),
+                bdate_formatter.format(testPatient.getBdate()), testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), Integer.toString(testPatient.getWeightInKg()),
+                Integer.toString(testPatient.getHeightInCm()), "First Name cant be empty");
+        //Empty last name
+        this.test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage(testPatient.getFirstName(), "",
+                bdate_formatter.format(testPatient.getBdate()), testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), Integer.toString(testPatient.getWeightInKg()),
+                Integer.toString(testPatient.getHeightInCm()), "Name cant be empty");
+        //Empty birthdate
+        this.test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage(testPatient.getFirstName(), testPatient.getLastName(),
+                "", testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), Integer.toString(testPatient.getWeightInKg()),
+                Integer.toString(testPatient.getHeightInCm()), "Birthdate cant be null");
+        //Weight 0
+        this.test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage(testPatient.getFirstName(), testPatient.getLastName(),
+                bdate_formatter.format(testPatient.getBdate()), testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), "0",
+                Integer.toString(testPatient.getHeightInCm()), "Weight has to be positive");
+        //Height 0
+        this.test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage(testPatient.getFirstName(), testPatient.getLastName(),
+                bdate_formatter.format(testPatient.getBdate()), testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), Integer.toString(testPatient.getWeightInKg()),
+                "0", "Height has to be positive");
+    }
+    
+    public void test_AddPatientForm_Fail_ShowsFormAgainWithErrorMessage(String fname, String lname, String bdate, String street,
+            String houseNumber, String addOn, String zipCode, String state, String city, String country,
+            String weight, String height, String errorMessage) {
+        driver.get(url + "/form.htm");
+        this.login();
+        this.fillInAndSubmitPatientForm(fname, lname, bdate, street, houseNumber, 
+                addOn, zipCode, state, city, country, weight, height);
+
+        assertTrue(driver.findElement(By.tagName("h1")).getText().equals("Add Patient"));
+        assertTrue(this.foundWebElementInCollection(driver.findElements(By.cssSelector(".form-group span")), errorMessage));
     }
 
     private void deletePatient(Long id) {
@@ -181,8 +217,35 @@ public class SeleniumTest {
             driver.findElement(By.cssSelector("a[href*='requestDeletePatient/" + id + "']")).click();
             driver.findElement(By.id("submitButton")).click();
         } catch (Exception e) {
-            
+
         }
+    }
+
+    private void fillInAndSubmitPatientForm(String fname, String lname, String bdate, String street,
+            String houseNumber, String addOn, String zipCode, String state, String city, String country,
+            String weight, String height) {
+        this.fillInField(driver.findElement(By.id("firstName")), fname);
+        this.fillInField(driver.findElement(By.id("lastName")), lname);
+        this.fillInField(driver.findElement(By.id("bdate")), bdate);
+        this.fillInField(driver.findElement(By.id("address.street")), street);
+        this.fillInField(driver.findElement(By.id("address.houseNumber")), houseNumber);
+        this.fillInField(driver.findElement(By.id("address.addOn")), addOn);
+        this.fillInField(driver.findElement(By.id("address.zipCode")), zipCode);
+        this.fillInField(driver.findElement(By.id("address.city")), state);
+        this.fillInField(driver.findElement(By.id("address.state")), city);
+        this.fillInField(driver.findElement(By.id("address.country")), country);
+        this.fillInField(driver.findElement(By.id("weightInKg")), weight);
+        this.fillInField(driver.findElement(By.id("heightInCm")), height);
+        driver.findElement(By.className("btn")).click();
+    }
+
+    private void fillInAndSubmitPatientForm(Patient testPatient) {
+        this.fillInAndSubmitPatientForm(testPatient.getFirstName(), testPatient.getLastName(),
+                bdate_formatter.format(testPatient.getBdate()), testPatient.getAddress().getStreet(),
+                Integer.toString(testPatient.getAddress().getHouseNumber()), testPatient.getAddress().getAddOn(),
+                testPatient.getAddress().getZipCode(), testPatient.getAddress().getCity(), testPatient.getAddress().getState(),
+                testPatient.getAddress().getCountry(), Integer.toString(testPatient.getWeightInKg()),
+                Integer.toString(testPatient.getHeightInCm()));
     }
 
     private void login() {

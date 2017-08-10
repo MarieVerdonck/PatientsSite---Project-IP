@@ -53,10 +53,10 @@ public class AddressTest {
     
         assertEquals(address.getStreet(), street);
         assertEquals(address.getHouseNumber(), housenumber);
-        assertEquals(address.getAddOn(), null);
+        assertEquals(address.getAddOn(), "");
         assertEquals(address.getZipCode(), zipcode);
         assertEquals(address.getCity(), city);
-        assertEquals(address.getState(), null);
+        assertEquals(address.getState(), "");
         assertEquals(address.getCountry(), country);
         
         String addressString = address.toString();
