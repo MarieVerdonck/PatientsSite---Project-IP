@@ -15,8 +15,8 @@
     <body>
         <div id="container">
             <%@include file="header.jsp" %>
-            <div id="screen">
-                <div id="content">
+            <div id="screen" class="panel panel-default">
+                <div id="content" class="panel-body">
                     <h1>Patient Overview</h1>
                     <% ArrayList<Patient> patients = (ArrayList<Patient>) request.getAttribute("patients");%>
                     <div class="table-responsive">
@@ -32,23 +32,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for (Patient patient: patients) { %>
+                                <% for (Patient patient : patients) {%>
                                 <tr>
-                                    <td class="patientID"><%= patient.getId() %></td>
-                                    <td class="patientName"><%= patient.getFirstName() %> <%= patient.getLastName() %></td>
-                                    <td class="patientAge"><%= patient.getAge() %></td>
-                                    <td class="patientAddress"><%= patient.getAddress().getStreet()!=null ? patient.getAddress() : "none" %></td>
-                                    <td class="patientWeight"><%= patient.getWeightInKg() %></td>
-                                    <td class="patientHeight"><%= patient.getHeightInCm() %></td>
+                                    <td class="patientID"><%= patient.getId()%></td>
+                                    <td class="patientName"><%= patient.getFirstName()%> <%= patient.getLastName()%></td>
+                                    <td class="patientAge"><%= patient.getAge()%></td>
+                                    <td class="patientAddress"><%= patient.getAddress().getStreet() != null ? patient.getAddress() : "none"%></td>
+                                    <td class="patientWeight"><%= patient.getWeightInKg()%></td>
+                                    <td class="patientHeight"><%= patient.getHeightInCm()%></td>
                                     <td><a href="/ip-project/editPatient/<%=patient.getId()%>.htm">edit</a></td>
                                     <td><a href="/ip-project/requestDeletePatient/<%=patient.getId()%>.htm">delete</a></td>
                                 </tr>
-                                <% } %>
+                                <% }
+                                %>
                             </tbody>
                         </table>
                     </div>  
                     <a href="form.htm" class="btn btn-primary">Add Patient</a> 
                 </div>
+                <%@include file="footer.jsp" %>
             </div>
         </div>
     </body>

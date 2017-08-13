@@ -100,7 +100,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-10">
-            <input type="submit" value="add patient" class="btn btn-primary">
+            <input type="submit" value="Submit" class="btn btn-primary">
         </div>
     </div>
 </form:form>
