@@ -114,6 +114,16 @@
             <artifactId>spring-security-config</artifactId>
             <version>4.2.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -140,3 +150,4 @@
     </build>
     <name>IP-patients</name>
 </project>
+F
