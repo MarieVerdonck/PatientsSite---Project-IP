@@ -5,6 +5,8 @@
  */
 package controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.model.Patient;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +23,7 @@ import service.PatientService;
  * @author Marie
  */
 @Controller
-@RequestMapping(value = "/rest/countries")
+@RequestMapping(value = "/rest")
 public class PatientRESTController {
     
     private final PatientService service;
@@ -32,7 +34,7 @@ public class PatientRESTController {
     
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
     @ResponseBody
-    public List<Patient> getPatients() {
+    public String getPatients() throws JsonProcessingException {
         Collection coll = service.read();
         List list;
         if(coll instanceof List) {
@@ -40,7 +42,9 @@ public class PatientRESTController {
         } else {
             list = new ArrayList(coll);
         }
-        return list;
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(list);
+        return jsonString;
     }
     
 }
