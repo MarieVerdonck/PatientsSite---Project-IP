@@ -37,7 +37,7 @@
                     <h2 id="article-title"></h2>
                     <p>URL: healthcare.gov<span id="article-url"></span></p>
                     <p id="article-content"></p>
-                    <script>
+                    <script type="text/javascript">
                         $.getJSON('https://www.healthcare.gov/glossary/patient-protection-and-affordable-care-act.json', function (d) {
                             $('#article-title').html(d.title);
                             $('#article-content').html(d.content);

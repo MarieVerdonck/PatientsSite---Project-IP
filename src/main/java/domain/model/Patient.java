@@ -1,5 +1,6 @@
 package domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import domain.DomainException;
 
 import java.io.Serializable;
@@ -26,6 +27,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity(name="patient")
 @Table(name="patient")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Patient implements Serializable {
     
     @Id
