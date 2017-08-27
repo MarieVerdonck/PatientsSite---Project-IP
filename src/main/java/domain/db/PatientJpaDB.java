@@ -7,8 +7,6 @@ package domain.db;
 
 import domain.model.Address;
 import domain.model.Patient;
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +28,7 @@ public class PatientJpaDB extends PatientDB {
         entityManager = entityManagerFactory.createEntityManager();
     }
     
-    public PatientJpaDB() {
+    PatientJpaDB() {
        this.openConnection("IP-patients");
     }
 
