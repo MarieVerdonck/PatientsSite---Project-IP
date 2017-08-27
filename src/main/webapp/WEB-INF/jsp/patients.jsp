@@ -16,6 +16,7 @@
         <div id="container">
             <%@include file="header.jsp" %>
             <div id="screen" class="panel panel-default">
+                <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
                 <div id="content" class="panel-body">
                     <h1>Patient Overview</h1>
                     <% ArrayList<Patient> patients = (ArrayList<Patient>) request.getAttribute("patients");%>
